@@ -1,0 +1,135 @@
+Reset & Base * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  padding: 40px 20px;
+  color: #2c3e50;
+}
+
+/* Page Title */
+h1 {
+  text-align: center;
+  font-size: 32px;
+  color: #1b263b;
+  margin-bottom: 40px;
+  letter-spacing: 1.2px;
+}
+
+/* Student Timeline Container */
+#studentRecords {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Vertical line for timeline */
+#studentRecords::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 3px;
+  height: 100%;
+  background: #2980b9;
+  opacity: 0.4;
+}
+
+/* Each Student Card */
+.student {
+  position: relative;
+  background: #fff;
+  margin: 20px 0;
+  padding: 20px 25px 20px 70px;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Timeline Dot */
+.student::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 25px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(45deg, #2980b9, #6dd5fa);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+.student:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Student Name */
+.studentName {
+  font-size: 20px;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+/* Marks as circles */
+.marks {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.marks li {
+  list-style: none;
+  width: 40px;
+  height: 40px;
+  background: #2980b9;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: 500;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.marks li:hover {
+  transform: scale(1.3);
+  background: #6dd5fa;
+}
+
+/* Average */
+.average {
+  font-size: 16px;
+  font-weight: 600;
+  color: #27ae60;
+}
+
+/* Process Button */
+#processBtn {
+  display: block;
+  margin: 30px auto;
+  padding: 12px 22px;
+  background: linear-gradient(45deg, #2980b9, #6dd5fa);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#processBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+#processBtn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

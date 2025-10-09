@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Flash Quiz Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .quiz-container {
+            padding: 30px;
+        }
+
+        .start-screen,
+        .question-screen,
+        .result-screen {
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            margin-bottom: 20px;
+            color: #2575fc;
+        }
+
+        .start-screen p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .btn {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 117, 252, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .question-screen {
+            display: none;
+        }
+
+        .progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .timer {
+            background-color: #f0f0f0;
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            width: 100%;
+            transition: width 1s linear;
+        }
+
+        .question {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: #2575fc;
+            background-color: #e3f2fd;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .option.wrong {
+            border-color: #f44336;
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .option.unanswered {
+            border-color: #9e9e9e;
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #4CAF50;
+        }
+
+        .feedback.wrong {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+        }
+
+        .feedback.unanswered {
+            background-color: #f5f5f5;
+            color: #616161;
+            border: 1px solid #9e9e9e;
+        }
+
+        .result-screen {
+            display: none;
+        }
+
+        .result-screen h2 {
+            margin-bottom: 20px;
+            color: #2575fc;
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .score-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .score-value {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .score-value.correct {
+            color: #4CAF50;
+        }
+
+        .score-value.wrong {
+            color: #f44336;
+        }
+
+        .score-value.unanswered {
+            color: #9e9e9e;
+        }
+
+        .final-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #2575fc;
+        }
+
+        .restart-btn {
+            margin-top: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interactive Flash Quiz</h1>
+            <p>Test your knowledge with our timed quiz!</p>
+        </div>
+
+        <div class="quiz-container">
+            <!-- Start Screen -->
+            <div class="start-screen" id="start-screen">
+                <h2>Welcome to the Quiz!</h2>
+                <p>You will be presented with 5 random questions. Each question has a 10-second timer. Answer correctly
+                    to score points. Good luck!</p>
+                <button class="btn" id="start-btn">Start Quiz</button>
+            </div>
+
+            <!-- Question Screen -->
+            <div class="question-screen" id="question-screen">
+                <div class="progress">
+                    <span id="progress-text">Question 1 of 5</span>
+                    <span id="timer-text">Time: 10s</span>
+                </div>
+                <div class="timer">
+                    <div class="timer-bar" id="timer-bar"></div>
+                </div>
+                <h2 class="question" id="question-text">What is the capital of France?</h2>
+                <div class="options" id="options-container">
+                    <!-- Options will be dynamically generated here -->
+                </div>
+                <div class="feedback" id="feedback">
+                    <!-- Feedback will be shown here -->
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div class="result-screen" id="result-screen">
+                <h2>Quiz Completed!</h2>
+                <div class="score-card">
+                    <div class="final-score" id="final-score">8/10</div>
+                    <div class="score-item">
+                        <span class="score-label">Correct Answers:</span>
+                        <span class="score-value correct" id="correct-count">4</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Wrong Answers:</span>
+                        <span class="score-value wrong" id="wrong-count">1</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Unanswered:</span>
+                        <span class="score-value unanswered" id="unanswered-count">0</span>
+                    </div>
+                </div>
+                <button class="btn restart-btn" id="restart-btn">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz questions array
+        const questions = [
+            {
+                question: "Which language runs in a web browser?",
+                options: ["Java", "C", "Python", "JavaScript"],
+                answer: "JavaScript"
+            },
+            {
+                question: "What does CSS stand for?",
+                options: ["Central Style Sheets", "Cascading Style Sheets", "Cascading Simple Sheets", "Cars SUVs Sailboats"],
+                answer: "Cascading Style Sheets"
+            },
+            {
+                question: "What does HTML stand for?",
+                options: ["Hypertext Markup Language", "Hypertext Markdown Language", "Hyperloop Machine Language", "Helicopters Terminals Motorboats Lamborghinis"],
+                answer: "Hypertext Markup Language"
+            },
+            {
+                question: "Which year was JavaScript launched?",
+                options: ["1996", "1995", "1994", "None of the above"],
+                answer: "1995"
+            },
+            {
+                question: "Which of these is a JavaScript framework?",
+                options: ["Django", "Flask", "React", "Laravel"],
+                answer: "React"
+            }
+        ];
+
+        // Quiz state variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let unansweredCount = 0;
+        let timer;
+        let timeLeft;
+        let shuffledQuestions = [];
+        let selectedOption = null;
+        let answerSubmitted = false;
+
+        // DOM elements
+        const startScreen = document.getElementById('start-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressText = document.getElementById('progress-text');
+        const timerText = document.getElementById('timer-text');
+        const timerBar = document.getElementById('timer-bar');
+        const feedback = document.getElementById('feedback');
+        const finalScore = document.getElementById('final-score');
+        const correctCountEl = document.getElementById('correct-count');
+        const wrongCountEl = document.getElementById('wrong-count');
+        const unansweredCountEl = document.getElementById('unanswered-count');
+
+        // Event listeners
+        startBtn.addEventListener('click', startQuiz);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        // Start the quiz
+        function startQuiz() {
+            // Reset state
+            currentQuestionIndex = 0;
+            score = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            unansweredCount = 0;
+
+            // Shuffle questions
+            shuffledQuestions = [...questions];
+            shuffleArray(shuffledQuestions);
+
+            // Show question screen
+            startScreen.style.display = 'none';
+            questionScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
+
+            // Load first question
+            loadQuestion();
+        }
+
+        // Load a question
+        function loadQuestion() {
+            // Reset state for new question
+            answerSubmitted = false;
+            selectedOption = null;
+            feedback.style.display = 'none';
+
+            // Clear options container
+            optionsContainer.innerHTML = '';
+
+            // Update progress
+            progressText.textContent = `Question ${currentQuestionIndex + 1} of ${shuffledQuestions.length}`;
+
+            // Get current question
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+
+            // Display question
+            questionText.textContent = currentQuestion.question;
+
+            // Shuffle options
+            const shuffledOptions = [...currentQuestion.options];
+            shuffleArray(shuffledOptions);
+
+            // Create option elements
+            shuffledOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(optionElement, option));
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Start timer
+            startTimer();
+        }
+
+        // Select an option
+        function selectOption(optionElement, option) {
+            if (answerSubmitted) return;
+
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Add selected class to clicked option
+            optionElement.classList.add('selected');
+            selectedOption = option;
+        }
+
+        // Start the timer for the current question
+        function startTimer() {
+            timeLeft = 10;
+            timerText.textContent = `Time: ${timeLeft}s`;
+            timerBar.style.width = '100%';
+
+            // Clear any existing timer
+            if (timer) {
+                clearInterval(timer);
+            }
+
+            // Update timer every second
+            timer = setInterval(() => {
+                timeLeft--;
+                timerText.textContent = `Time: ${timeLeft}s`;
+                timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+
+                // If time runs out
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        // Handle timeout (no answer selected)
+        function handleTimeout() {
+            answerSubmitted = true;
+            unansweredCount++;
+
+            // Show feedback
+            feedback.textContent = "Time's up! Question unanswered.";
+            feedback.className = 'feedback unanswered';
+            feedback.style.display = 'block';
+
+            // Move to next question after delay
+            setTimeout(nextQuestion, 2000);
+        }
+
+        // Check the selected answer
+        function checkAnswer() {
+            if (answerSubmitted || !selectedOption) return;
+
+            // Clear timer
+            clearInterval(timer);
+            answerSubmitted = true;
+
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            const isCorrect = selectedOption === currentQuestion.answer;
+
+            // Update score and counts
+            if (isCorrect) {
+                score++;
+                correctCount++;
+
+                // Show feedback
+                feedback.textContent = "Correct! Well done!";
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+
+                // Highlight correct answer
+                document.querySelectorAll('.option').forEach(opt => {
+                    if (opt.textContent === currentQuestion.answer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            } else {
+                wrongCount++;
+
+                // Show feedback
+                feedback.textContent = `Wrong! The correct answer is: ${currentQuestion.answer}`;
+                feedback.className = 'feedback wrong';
+                feedback.style.display = 'block';
+
+                // Highlight correct and wrong answers
+                document.querySelectorAll('.option').forEach(opt => {
+                    if (opt.textContent === currentQuestion.answer) {
+                        opt.classList.add('correct');
+                    } else if (opt.textContent === selectedOption) {
+                        opt.classList.add('wrong');
+                    }
+                });
+            }
+
+            // Move to next question after delay
+            setTimeout(nextQuestion, 2000);
+        }
+
+        // Move to the next question or show results
+        function nextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < shuffledQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Show the final results
+        function showResults() {
+            questionScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            // Update result elements
+            finalScore.textContent = `${score}/${shuffledQuestions.length}`;
+            correctCountEl.textContent = correctCount;
+            wrongCountEl.textContent = wrongCount;
+            unansweredCountEl.textContent = unansweredCount;
+        }
+
+        // Restart the quiz
+        function restartQuiz() {
+            resultScreen.style.display = 'none';
+            startScreen.style.display = 'block';
+        }
+
+        // Utility function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Add event listener for option selection with Enter key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && questionScreen.style.display === 'block' && selectedOption) {
+                checkAnswer();
+            }
+        });
+    </script>
+</body>
+
+</html>

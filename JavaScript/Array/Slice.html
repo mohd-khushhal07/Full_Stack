@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Slice Example</h2>
+    <p id="demo"></p>
+    <script>
+      const player = ["Rohit", "Virat", "Dhoni", "Sachin"];
+      const top2 = player.slice(1);
+
+      document.getElementById("demo").innerHTML =
+        "Top 2 player: " + top2 + "<br> Original Team: " + player;
+      // Output: Top 2 player: Virat,Dhoni Original Team: Rohit,Virat,Dhoni,Sachin
+    </script>
+  </body>
+</html>

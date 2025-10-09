@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <h2>
+        Callbacks example
+    </h2>
+    <p id="demo"></p>
+    <script>
+        function displayResult(some) {
+            document.getElementById("demo").innerHTML = some;
+        }
+        function calculator(num1, nnum2, callback) {
+            let sum = num1 + nnum2;
+            callback(sum);
+        }
+        calculator(5, 10, displayResult);
+    </script> -->
+    <h2>Callbacks Eg 4</h2>
+    <p id="demo"></p>
+    <script>
+        const myNumbers = [4, 1, -20, -7, 5, 9, -6];
+
+        //removeNeg will take numbers + rule(callbaclk)
+
+
+        function removeNeg(numbers, callback) {
+            const myArray = []; //empty array to store positive numbers
+            for (const x of numbers) {
+                if (callback(x)) {
+                    myArray.push(x);
+                }
+            }
+            return myArray;
+        }
+        const posNumber = removeNeg(myNumbers, (x) => x >= 0);
+        document.getElementById("demo").innerHTML = posNumber;
+    </script>
+</body>
+
+</html>

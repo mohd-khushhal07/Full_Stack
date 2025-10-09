@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>findLast Example</h2>
+    <p id="demo"></p>
+
+    <script>
+      const temp = [27, 28, 30, 40, 42, 35, 50];
+      let lastHigh = temp.findLast((t) => t > 40);
+
+      document.getElementById("demo").innerHTML =
+        "Last high temperture above 40 was: " + lastHigh;
+    </script>
+  </body>
+</html>

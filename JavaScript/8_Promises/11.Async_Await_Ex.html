@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        async function makeCoffe() {
+            document.getElementById("demo").innerHTML = "Making coffee... ☕";
+
+            let coffeeReady = new Promise(function (resolve) {
+                setTimeout(() => resolve("Coffee is ready! ☕"), 3000);
+            });
+            let result = await coffeeReady;
+            document.getElementById("demo").innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>

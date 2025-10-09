@@ -1,0 +1,28 @@
+<!-- Copies -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>CopyWithin Example</h2>
+    <p id="demo"></p>
+
+    <!--
+        This script demonstrates the use of the Array.prototype.copyWithin() method in JavaScript.
+        - An array 'fruits' is initialized with four string elements.
+        - The copyWithin(2, 0) method copies the elements starting from index 0 to index 2, overwriting existing elements from index 2 onwards.
+            Specifically, "Banana" and "Orange" (indices 0 and 1) are copied to indices 2 and 3.
+        - The resulting array will be: ["Banana", "Orange", "Banana", "Orange"].
+        - The modified array is then displayed in the HTML element with id "demo".
+    -->
+    <script>
+      const fruits = ["Banana", "Orange", "Apple", "Mango"];
+      fruits.copyWithin(2, 0);
+      document.getElementById("demo").innerHTML = fruits;
+    </script>
+  </body>
+</html>

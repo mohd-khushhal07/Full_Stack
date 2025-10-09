@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Splice Example</h2>
+    <p id="demo"></p>
+
+    <script>
+      const fruits = ["Banana", "Orange", "Apple", "Mango"];
+      fruits.splice(1, 0, "Lemon"); // Inserts "Lemon" at index 1 without removing any elements
+      // Resulting array: ["Banana", "Lemon", "Orange", "Apple", "Mango"]
+      document.getElementById("demo").innerHTML = fruits;
+
+      fruits.splice(2, 1); // Removes 1 element at index 2
+      // Resulting array: ["Banana", "Lemon", "Apple", "Mango"]
+      document.getElementById("demo").innerHTML += "<br>" + fruits;
+    </script>
+  </body>
+</html>

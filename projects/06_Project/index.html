@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Result Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e91322;
+      color: white;
+    }
+
+    .controls {
+      max-width: 300px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input,
+    button {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4954d6;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+    }
+
+    button:hover {
+      background-color: #a50a17;
+    }
+
+    #output {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Result Management</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody id="studentTable"></tbody>
+  </table>
+
+  <div class="controls">
+    <input type="text" id="studentName" placeholder="Enter student name" />
+    </button>
+    <button onclick="findLastIndexOf()">Find Last Index</button>
+    <button onclick="checkIncludes()">Check Enrollment</button>
+    <button onclick="findPassedStudent()">Find First Passed </button>
+    <button onclick="findPassedStudentIndex()">
+      Find Index of First Passed
+    </button>
+    <button onclick="findLastHighScorer()">
+      Find Last Scorer > 50
+    </button>
+    <button onclick="findLastPassedStudentIndex()">
+      Find Last Passed Index
+    </button>
+  </div>
+
+  <div id="output">Result will appear here...</div>
+
+  <script>
+    const students = [
+      "Kim Jong",
+      "Ji Han Na",
+      "Dong Ju",
+      "Min ju-yeong",
+      "Ko Man Sik",
+    ];
+    const marks = [68, 16, 55, 90, 73];
+
+    const table = document.getElementById("studentTable");
+    students.forEach((name, index) => {
+      const row = `<tr><td>${name}</td><td>${marks[index]}</td></tr>`;
+      table.innerHTML += row;
+    });
+
+    function findIndexOf() {
+      const name = document.getElementById("studentName").value.trim();
+      const index = students.indexOf(name);
+      showOutput(
+        index >= 0
+          ? `First index of "${name}" is ${index}`
+          : `"${name}" not found.`
+      );
+    }
+
+    function findLastIndexOf() {
+      const name = document.getElementById("studentName").value.trim();
+      const index = students.lastIndexOf(name);
+      showOutput(
+        index >= 0
+          ? `Last index of "${name}" is ${index}`
+          : `"${name}" not found.`
+      );
+    }
+
+    function checkIncludes() {
+      const name = document.getElementById("studentName").value.trim();
+      const found = students.includes(name);
+      showOutput(`${name} is enrolled: ${found}`);
+    }
+
+    function findPassedStudent() {
+      const result = marks.find((mark) => mark > 40);
+      showOutput(
+        result !== undefined
+          ? `First passing mark: ${result}`
+          : `No passing mark found.`
+      );
+    }
+
+    function findPassedStudentIndex() {
+      const index = marks.findIndex((mark) => mark > 40);
+      showOutput(
+        index !== -1
+          ? `Index of first passing student: ${index}`
+          : `No passing student found.`
+      );
+    }
+
+    function findLastHighScorer() {
+      const result = marks.findLast((mark) => mark > 50);
+      showOutput(
+        result !== undefined
+          ? `Last student with >50 marks: ${result}`
+          : `No student scored above 50.`
+      );
+    }
+
+    function findLastPassedStudentIndex() {
+      const index = marks.findLastIndex((mark) => mark > 40);
+      showOutput(
+        index !== -1
+          ? `Index of last passing student: ${index}`
+          : `No passing student found.`
+      );
+    }
+
+    function showOutput(message) {
+      document.getElementById("output").innerText = message;
+    }
+  </script>
+
+</body>
+
+</html>

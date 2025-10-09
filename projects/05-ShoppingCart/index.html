@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Shopping Cart</h1>
+
+    <div class="products">
+      <div class="box">
+        <img src="image/1.png" alt="Mobile" />
+        <h2>Mobile</h2>
+        <p>Price: ₹15000</p>
+        <button onclick="addMobile()">Add to Cart</button>
+      </div>
+
+      <div class="box">
+        <img src="image/2.png" alt="Laptop" />
+        <h2>Laptop</h2>
+        <p>Price: ₹60000</p>
+        <button onclick="addLaptop('laptop', 60000)">Add to Cart</button>
+      </div>
+
+      <div class="box">
+        <img src="image/3.png" alt="Headphones" />
+        <h2>Chair</h2>
+        <p>Price: ₹800</p>
+        <button onclick="addHeadphones()">Add to Cart</button>
+      </div>
+
+      <div class="box">
+        <img src="image/4.png" alt="Smartwatch" />
+        <h2>Shoes</h2>
+        <p>Price: ₹3000</p>
+        <button onclick="addWatch()">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="cart box">
+      <h2>Cart (<span id="totalItems">0</span>)</h2>
+      <div id="cartDetails"></div>
+      <div id="cartTotal"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

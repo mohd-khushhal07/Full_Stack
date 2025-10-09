@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Array reverse() and sort()</title>
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 26px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #444;
+            background: #f0f2f5;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #4CAF50;
+        }
+
+        b {
+            color: #2b2b2b;
+        }
+
+        span {
+            color: #1a73e8;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Array reverse() and sort()</h2>
+
+        <p><b>Original Array:</b> <span id="original"></span></p>
+        <p><b>After reverse():</b> <span id="reversed"></span></p>
+        <p><b>After sort() (Alphabetical):</b> <span id="sorted"></span></p>
+        <p><b>Numbers Sorted (Ascending):</b> <span id="numSort"></span></p>
+    </div>
+
+    <script>
+        // Create an array of fruits
+        let fruits = [" Banana", " Apple", " Mango", " Orange"];
+
+        // Display the original array in the HTML element with id "original"
+        document.getElementById("original").textContent = fruits;
+
+        // Reverse the order of elements in the fruits array
+        fruits.reverse();
+
+        // Display the reversed array in the HTML element with id "reversed"
+        document.getElementById("reversed").textContent = fruits;
+
+        // Sort the fruits array in alphabetical order (A-Z)
+        fruits.sort();
+
+        // Display the sorted array in the HTML element with id "sorted"
+        document.getElementById("sorted").textContent = fruits;
+
+        // Create an array of numbers
+        let numbers = [40, 100, 1, 5, 25];
+
+        // Sort the numbers array in ascending order using a compare function
+        numbers.sort(function (a, b) {
+            return a - b; // a-b < 0 → a comes before b, a-b > 0 → b comes before a
+        });
+
+        // Display the sorted numbers in the HTML element with id "numSort"
+        document.getElementById("numSort").textContent = numbers;
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trading Bot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #161b22;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: #58a6ff;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-box {
+      background: #21262d;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-box span {
+      display: block;
+      margin-top: 6px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffdd57;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .next {
+      background: #238636;
+      color: #fff;
+    }
+
+    .next:hover {
+      background: #2ea043;
+    }
+
+    .reset {
+      background: #da3633;
+      color: #fff;
+    }
+
+    .reset:hover {
+      background: #f85149;
+    }
+
+    #log {
+      padding: 15px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      height: 220px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    #log::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #log::-webkit-scrollbar-thumb {
+      background: #58a6ff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Trading Bot</h2>
+    <div class="stats">
+      <div class="stat-box">Balance<span id="balance">1000</span></div>
+      <div class="stat-box">Stocks<span id="stocks">0</span></div>
+      <div class="stat-box">Price<span id="price">100</span></div>
+      <div class="stat-box">Round<span id="round">0</span></div>
+    </div>
+    <div class="buttons">
+      <button class="next" onclick="nextRound()">Next Round</button>
+      <button class="reset" onclick="resetGame()">Reset</button>
+    </div>
+    <div id="log">Bot started...</div>
+  </div>
+
+  <script>
+    let balance, stocks, price, round;
+
+    function init() {
+      balance = 1000;
+      stocks = 0;
+      price = 100;
+      round = 0;
+      update();
+      document.getElementById("log").innerHTML = "Bot started...";
+    }
+
+    function update() {
+      document.getElementById("balance").textContent = balance;
+      document.getElementById("stocks").textContent = stocks;
+      document.getElementById("price").textContent = price;
+      document.getElementById("round").textContent = round;
+    }
+
+    function log(msg) {
+      document.getElementById("log").innerHTML += "<br>" + msg;
+      let logBox = document.getElementById("log");
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function nextRound() {
+      if (round >= 10) return;
+      round++;
+      price = Math.floor(Math.random() * 41) + 80;
+      let action = "HOLD";
+
+      if (price < 90 && balance >= price) {
+        balance -= price;
+        stocks++;
+        action = "BUY";
+      } else if (price > 110 && stocks > 0) {
+        balance += price;
+        stocks--;
+        action = "SELL";
+      }
+
+      update();
+      log("Round " + round + ": " + action + " at $" + price);
+
+      if (round === 10) {
+        log("<br>" + "Game Over! Final Balance: $" + balance);
+      }
+    }
+
+    function resetGame() {
+      init();
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

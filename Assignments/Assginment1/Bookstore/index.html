@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookstore</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #ffcc00;
+    }
+
+    #bookList {
+      margin: 20px auto;
+      max-width: 400px;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+      text-align: left;
+    }
+
+    .book {
+      background: #2a2a2a;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .book:hover {
+      background: #333333;
+    }
+
+    input {
+      padding: 10px;
+      width: 250px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      outline: none;
+      background: #1e1e1e;
+      color: white;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #6200ea;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #3700b3;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Online Bookstore</h1>
+
+  <div id="bookList"></div>
+
+  <input type="text" id="bookInput" placeholder="Enter book name" />
+
+  <div class="controls">
+    <button onclick="addBookEnd()">Add End</button>
+    <button onclick="addBookStart()">Add Start</button>
+    <button onclick="removeBookEnd()">Remove End</button>
+    <button onclick="removeBookStart()">Remove Start</button>
+    <button onclick="deleteBook()">Delete Book</button>
+    <button onclick="updateBook()">Update First</button>
+  </div>
+
+  <script>
+    let books = ["Math", "Science", "English"];
+
+    function displayBooks() {
+      let listDiv = document.getElementById("bookList");
+      listDiv.innerHTML = "";
+      books.forEach((book, i) => {
+        listDiv.innerHTML += `<div class="book">#${i + 1} — ${book}</div>`;
+      });
+      listDiv.innerHTML += `<div style="margin-top:10px; font-weight:bold;">📖 Total Books: ${books.length}</div>`;
+    }
+
+    function addBookEnd() {
+      let book = document.getElementById("bookInput").value;
+      if (book) books.push(book);
+      document.getElementById("bookInput").value = "";
+      displayBooks();
+    }
+
+    function addBookStart() {
+      let book = document.getElementById("bookInput").value;
+      if (book) books.unshift(book);
+      document.getElementById("bookInput").value = "";
+      displayBooks();
+    }
+
+    function removeBookEnd() {
+      books.pop();
+      displayBooks();
+    }
+
+    function removeBookStart() {
+      books.shift();
+      displayBooks();
+    }
+
+    function deleteBook() {
+      let book = document.getElementById("bookInput").value;
+      let index = books.indexOf(book);
+      if (index !== -1) books.splice(index, 1);
+      document.getElementById("bookInput").value = "";
+      displayBooks();
+    }
+
+    function updateBook() {
+      let book = document.getElementById("bookInput").value;
+      if (book) books[0] = book;
+      document.getElementById("bookInput").value = "";
+      displayBooks();
+    }
+
+    displayBooks();
+  </script>
+</body>
+
+</html>
