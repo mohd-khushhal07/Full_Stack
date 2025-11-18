@@ -1,51 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body>
-    <h1>Shopping Cart</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart</title>
+  <!-- Embedded CSS styling for the page -->
+  <style>
+    /* Universal box-sizing and a smooth scrolling effect */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <div class="products">
-      <div class="box">
-        <img src="image/1.png" alt="Mobile" />
-        <h2>Mobile</h2>
-        <p>Price: ₹15000</p>
-        <button onclick="addMobile()">Add to Cart</button>
-      </div>
+    html {
+      scroll-behavior: smooth;
+    }
 
-      <div class="box">
-        <img src="image/2.png" alt="Laptop" />
-        <h2>Laptop</h2>
-        <p>Price: ₹60000</p>
-        <button onclick="addLaptop('laptop', 60000)">Add to Cart</button>
-      </div>
+    /* Body styling for overall aesthetics */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem;
+    }
 
-      <div class="box">
-        <img src="image/3.png" alt="Headphones" />
-        <h2>Chair</h2>
-        <p>Price: ₹800</p>
-        <button onclick="addHeadphones()">Add to Cart</button>
-      </div>
+    /* Header styling */
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 0.5rem;
+    }
 
-      <div class="box">
-        <img src="image/4.png" alt="Smartwatch" />
-        <h2>Shoes</h2>
-        <p>Price: ₹3000</p>
-        <button onclick="addWatch()">Add to Cart</button>
-      </div>
+    /* Product grid layout */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* General card styling for both products and cart */
+    .box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    /* Add a hover effect to the product cards */
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Product image styling */
+    .box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    /* Product text styling */
+    .box h2 {
+      font-size: 1.5rem;
+      color: #34495e;
+      margin-bottom: 0.5rem;
+    }
+
+    .box p {
+      font-size: 1.1rem;
+      color: #7f8c8d;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Button styling with a professional look */
+    .box button {
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .box button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Cart-specific styling */
+    .cart {
+      padding: 2rem;
+      background-color: #ecf0f1;
+      border-left: 5px solid #3498db;
+    }
+
+    .cart h2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      font-size: 1.8rem;
+    }
+
+    .cart h2 span {
+      background-color: #3498db;
+      color: #fff;
+      font-size: 1.2rem;
+      padding: 5px 12px;
+      border-radius: 50%;
+    }
+
+    #cartDetails {
+      border-top: 1px solid #bdc3c7;
+      padding-top: 1rem;
+      min-height: 50px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ecf0f1;
+      color: #555;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    #cartTotal {
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-align: right;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid #bdc3c7;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Shopping Cart</h1>
+
+  <div class="products">
+    <div class="box">
+      <img src="image/mobile.png" alt="Mobile" />
+      <h2>Mobile</h2>
+      <p>Price: ₹15000</p>
+      <button onclick="addMobile()">Add to Cart</button>
     </div>
 
-    <div class="cart box">
-      <h2>Cart (<span id="totalItems">0</span>)</h2>
-      <div id="cartDetails"></div>
-      <div id="cartTotal"></div>
+    <div class="box">
+      <img src="image/laptop.png" alt="Laptop" />
+      <h2>Laptop</h2>
+      <p>Price: ₹60000</p>
+      <button onclick="addLaptop()">Add to Cart</button>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <div class="box">
+      <img src="image/chair.png" alt="Chair" />
+      <h2>Chair</h2>
+      <p>Price: ₹800</p>
+      <button onclick="addHeadphones()">Add to Cart</button>
+    </div>
+
+    <div class="box">
+      <img src="image/shoe.png" alt="Shoes" />
+      <h2>Shoes</h2>
+      <p>Price: ₹3000</p>
+      <button onclick="addWatch()">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="cart box">
+    <h2>Cart (<span id="totalItems">0</span>)</h2>
+    <div id="cartDetails"></div>
+    <div id="cartTotal"></div>
+  </div>
+
+  <!-- Embedded JavaScript for functionality -->
+  <script>
+    // Initialize an empty array to store the cart items
+    let cart = [];
+
+    // Get the HTML elements for the cart display
+    const totalItemsElement = document.getElementById('totalItems');
+    const cartDetailsElement = document.getElementById('cartDetails');
+    const cartTotalElement = document.getElementById('cartTotal');
+
+    // A reusable function to add an item to the cart
+    function addItemToCart(name, price) {
+      // Check if the item already exists in the cart
+      const existingItem = cart.find(item => item.name === name);
+
+      if (existingItem) {
+        // If the item exists, just increase its quantity
+        existingItem.quantity++;
+      } else {
+        // Otherwise, add a new item object to the cart array
+        cart.push({ name: name, price: price, quantity: 1 });
+      }
+
+      // After adding, update the cart's display
+      updateCartDisplay();
+    }
+
+    // Function to update the cart's display on the webpage
+    function updateCartDisplay() {
+      // Clear the existing content
+      cartDetailsElement.innerHTML = '';
+      let totalPrice = 0;
+      let totalItems = 0;
+
+      // Loop through each item in the cart array
+      cart.forEach(item => {
+        // Create and add the new HTML for each cart item
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        itemElement.innerHTML = `
+          <p>${item.name} x ${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}</p>
+        `;
+        cartDetailsElement.appendChild(itemElement);
+
+        // Calculate totals
+        totalPrice += item.price * item.quantity;
+        totalItems += item.quantity;
+      });
+
+      // Update the total items and total price on the page
+      totalItemsElement.textContent = totalItems;
+      cartTotalElement.textContent = `Total: ₹${totalPrice.toFixed(2)}`;
+    }
+
+    // Functions for each "Add to Cart" button
+    // The functions call the general `addItemToCart` function
+    function addMobile() {
+      addItemToCart('Mobile', 15000);
+    }
+
+    function addLaptop() {
+      addItemToCart('Laptop', 60000);
+    }
+
+    function addHeadphones() {
+      // The button text is "Chair", but the function name is `addHeadphones`.
+      // The code uses the correct product details based on the product card.
+      addItemToCart('Chair', 800);
+    }
+
+    function addWatch() {
+      // The button text is "Shoes", but the function name is `addWatch`.
+      // The code uses the correct product details based on the product card.
+      addItemToCart('Shoes', 3000);
+    }
+  </script>
+</body>
+
 </html>

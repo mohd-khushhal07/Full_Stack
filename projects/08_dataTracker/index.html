@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <section>
+        <h1>Data Tracker with Unique Entries</h1>
+        <p>This implementation tracks unique user entries using JavaScript's Set and Map data structures. It includes
+            features such as adding users, updating user data, searching, removing users, and displaying all users in a
+            readable format. Additional challenges include searching by ID, resetting the ID generator, clearing all
+            data, and allowing multiple entries per user.</p>
+    </section>
+    <script>
+        class UniqueDataTracker {
+            constructor() {
+                // Set to store unique user emails
+                this.uniqueUsers = new Set();
+
+                // Map to store user data (email -> user object)
+                this.userDataMap = new Map();
+
+                // ID Generator
+                this.idGenerator = this.createIdGenerator();
+            }
+
+            // Generator function for unique IDs
+            *createIdGenerator() {
+                let id = 1;
+                while (true) {
+                    yield `U${id.toString().padStart(3, '0')}`;
+                    id++;
+                }
+            }
+
+            // Reset generator (Extra Challenge #3)
+            resetGenerator() {
+                this.idGenerator = this.createIdGenerator();
+                console.log("ID Generator reset to U001");
+            }
+
+            // Add new user
+            addUser(email, name, additionalData = {}) {
+                // Check if user already exists
+                if (this.uniqueUsers.has(email)) {
+                    console.log(`User with email ${email} already exists!`);
+                    return false;
+                }
+
+                // Generate unique ID
+                const userId = this.idGenerator.next().value;
+
+                // Add to Set
+                this.uniqueUsers.add(email);
+
+                // Create user object
+                const userData = {
+                    id: userId,
+                    name: name,
+                    email: email,
+                    ...additionalData,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Add to Map
+                this.userDataMap.set(email, userData);
+
+                console.log(`User added successfully!`);
+                console.log(`ID: ${userId}, Name: ${name}, Email: ${email}`);
+                return true;
+            }
+
+            // Update user data
+            updateUserData(email, newData) {
+                if (!this.uniqueUsers.has(email)) {
+                    console.log(`Error: User with email ${email} doesn't exist!`);
+                    return false;
+                }
+
+                // Get existing user data
+                const existingData = this.userDataMap.get(email);
+
+                // Update with new data
+                const updatedData = {
+                    ...existingData,
+                    ...newData,
+                    updatedAt: new Date().toISOString()
+                };
+
+                this.userDataMap.set(email, updatedData);
+                console.log(`User data updated for ${email}`);
+                return true;
+            }
+
+            // Search user by ID (Extra Challenge #1)
+            searchUserById(userId) {
+                for (let [email, userData] of this.userDataMap) {
+                    if (userData.id === userId) {
+                        return userData;
+                    }
+                }
+                return null;
+            }
+
+            // Search user by email
+            searchUserByEmail(email) {
+                return this.userDataMap.get(email) || null;
+            }
+
+            // Remove user (Extra Challenge #2)
+            removeUser(email) {
+                if (!this.uniqueUsers.has(email)) {
+                    console.log(`Error: User with email ${email} doesn't exist!`);
+                    return false;
+                }
+
+                this.uniqueUsers.delete(email);
+                this.userDataMap.delete(email);
+                console.log(`User ${email} removed successfully!`);
+                return true;
+            }
+
+            // Display all users in readable format
+            displayAllUsers() {
+                console.log("\n=== ALL USERS ===");
+                if (this.userDataMap.size === 0) {
+                    console.log("No users found.");
+                    return;
+                }
+
+                this.userDataMap.forEach((userData, email) => {
+                    console.log(`ID: ${userData.id}`);
+                    console.log(`Name: ${userData.name}`);
+                    console.log(`Email: ${userData.email}`);
+
+                    // Display additional data
+                    Object.keys(userData).forEach(key => {
+                        if (!['id', 'name', 'email', 'createdAt', 'updatedAt'].includes(key)) {
+                            console.log(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${userData[key]}`);
+                        }
+                    });
+
+                    console.log(`Created: ${userData.createdAt}`);
+                    if (userData.updatedAt) {
+                        console.log(`Updated: ${userData.updatedAt}`);
+                    }
+                    console.log("---");
+                });
+            }
+
+            // Get statistics
+            getStats() {
+                return {
+                    totalUsers: this.uniqueUsers.size,
+                    userEmails: Array.from(this.uniqueUsers),
+                    allUserData: Array.from(this.userDataMap.entries())
+                };
+            }
+
+            // Clear all data (Extra Challenge #3)
+            clearAllData() {
+                this.uniqueUsers.clear();
+                this.userDataMap.clear();
+                this.resetGenerator();
+                console.log("All user data cleared!");
+            }
+        }
+
+        // Enhanced version with multiple entries per user (Extra Challenge #4)
+        class AdvancedDataTracker extends UniqueDataTracker {
+            constructor() {
+                super();
+                // Map for multiple entries: email -> Array of entries
+                this.userEntriesMap = new Map();
+            }
+
+            addUserEntry(email, entryData) {
+                if (!this.uniqueUsers.has(email)) {
+                    console.log(`Error: User ${email} doesn't exist!`);
+                    return false;
+                }
+
+                if (!this.userEntriesMap.has(email)) {
+                    this.userEntriesMap.set(email, []);
+                }
+
+                const entry = {
+                    id: this.userEntriesMap.get(email).length + 1,
+                    ...entryData,
+                    timestamp: new Date().toISOString()
+                };
+
+                this.userEntriesMap.get(email).push(entry);
+                console.log(`New entry added for user ${email}`);
+                return true;
+            }
+
+            getUserEntries(email) {
+                return this.userEntriesMap.get(email) || [];
+            }
+
+            displayUserWithEntries(email) {
+                const userData = this.searchUserByEmail(email);
+                if (!userData) {
+                    console.log(`User ${email} not found!`);
+                    return;
+                }
+
+                console.log(`\n=== USER: ${userData.name} (${email}) ===`);
+                console.log(`ID: ${userData.id}`);
+
+                const entries = this.getUserEntries(email);
+                if (entries.length === 0) {
+                    console.log("No entries found.");
+                } else {
+                    console.log(`Entries (${entries.length}):`);
+                    entries.forEach(entry => {
+                        console.log(`  Entry #${entry.id}:`);
+                        Object.keys(entry).forEach(key => {
+                            if (key !== 'id') {
+                                console.log(`    ${key}: ${entry[key]}`);
+                            }
+                        });
+                    });
+                }
+            }
+        }
+
+        // Demo Usage
+        console.log("=== BASIC DATA TRACKER DEMO ===");
+        const tracker = new UniqueDataTracker();
+
+        // Adding users
+        tracker.addUser("john@email.com", "John Doe", { score: 85, level: 3 });
+        tracker.addUser("sarah@email.com", "Sarah Smith", { score: 92, level: 5 });
+        tracker.addUser("mike@email.com", "Mike Johnson", { score: 78, level: 2 });
+
+        // Try to add duplicate
+        tracker.addUser("john@email.com", "John Doe", { score: 85, level: 3 });
+
+        // Update user data
+        tracker.updateUserData("john@email.com", { score: 90, level: 4 });
+        tracker.updateUserData("nonexistent@email.com", { score: 100 }); // Should error
+
+        // Search operations
+        console.log("\n=== SEARCH OPERATIONS ===");
+        const userById = tracker.searchUserById("U001");
+        console.log("Search by ID U001:", userById);
+
+        const userByEmail = tracker.searchUserByEmail("sarah@email.com");
+        console.log("Search by email sarah@email.com:", userByEmail);
+
+        // Display all users
+        tracker.displayAllUsers();
+
+        // Remove user
+        tracker.removeUser("mike@email.com");
+        tracker.displayAllUsers();
+
+        // Get statistics
+        console.log("\n=== STATISTICS ===");
+        console.log(tracker.getStats());
+
+        console.log("\n=== ADVANCED DATA TRACKER DEMO ===");
+        const advancedTracker = new AdvancedDataTracker();
+
+        // Add users
+        advancedTracker.addUser("alice@email.com", "Alice Brown", { department: "Engineering" });
+        advancedTracker.addUser("bob@email.com", "Bob Wilson", { department: "Marketing" });
+
+        // Add multiple entries
+        advancedTracker.addUserEntry("alice@email.com", {
+            activity: "Code Review",
+            hours: 2,
+            project: "Website Redesign"
+        });
+        advancedTracker.addUserEntry("alice@email.com", {
+            activity: "Team Meeting",
+            hours: 1,
+            notes: "Sprint planning"
+        });
+        advancedTracker.addUserEntry("bob@email.com", {
+            activity: "Client Presentation",
+            hours: 3,
+            client: "ABC Corp"
+        });
+
+        // Display users with entries
+        advancedTracker.displayUserWithEntries("alice@email.com");
+        advancedTracker.displayUserWithEntries("bob@email.com");
+
+        // Clear all data
+        console.log("\n=== CLEARING DATA ===");
+        tracker.clearAllData();
+        tracker.displayAllUsers();
+    </script>
+
+</body>
+
+</html>

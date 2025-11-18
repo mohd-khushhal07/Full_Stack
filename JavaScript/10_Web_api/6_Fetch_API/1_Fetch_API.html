@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2> fetch api </h2>
+    <script>
+        function getData() {
+            fetch("data.txt")
+                // Step 2: Convert the response to text
+                .then(response => response.text())
+
+                // Step 3: Display the data
+                .then(text => {
+                    output.innerHTML = " Data Received:<br><br>" + text;
+                    console.log("File data:", text);
+                    console.log(response)
+                })
+
+                // // Step 4: Handle errors if any
+                .catch(error => {
+                    output.innerHTML = "X Error: " + error;
+                    console.error("Error fetching file:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>

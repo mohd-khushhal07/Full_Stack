@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <button id="themeToggle" style="
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: none;
+          border: 2px solid #00bcd4;
+          padding: 8px 12px;
+          border-radius: 8px;
+          color: #00bcd4;
+          cursor: pointer;
+        ">
+      Toggle Theme
+    </button>
+
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#Projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="intro">
+    <div class="profile-pic">
+      <img src="assets/khushhal's pic.jpeg" alt="Profile Picture" />
+    </div>
+    <h1>
+      Turning Ideas into Interactive Experiences.
+      <span>Passionate Developer</span>
+    </h1>
+    <p>Future full-stack developer in the making.</p>
+    <div class="buttons">
+      <a href="#contact"><button>Get in Touch</button></a>
+      <a href="Khushhal-Resume.pdf" download>
+        <button>Download Resume</button>
+      </a>
+    </div>
+  </section>
+
+  <section id="experience-icons" class="experience-icons">
+    <h3>Experience With</h3>
+    <div class="icons">
+      <img src="assets/html.png" alt="HTML5" />
+      <img src="assets/css.png" alt="CSS3" />
+      <img src="assets/js.png" alt="JavaScript" />
+      <img src="assets/react.png" alt="React" />
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <div class="about-container">
+
+      <div class="about-left">
+        <img src="me2.jpeg" alt="Khushhal's Photo" />
+      </div>
+
+      <div class="about-right">
+        <h3>Hey, I'm Mohd Khushhal 👋</h3>
+        <p>
+          I'm a passionate <strong>full-stack Developer</strong> and
+          <strong>B.Tech CSE student</strong> who loves creating modern,
+          minimal, and responsive websites using
+          <strong>HTML, CSS, and JavaScript</strong>.
+        </p>
+        <p>
+          Currently, I'm diving deeper into JavaScript and working towards
+          becoming a
+          <strong>Full Stack Developer</strong>. I enjoy solving problems and
+          turning creative ideas into real web experiences.
+        </p>
+        <p>
+          Besides coding, I’m improving my communication skills and love
+          learning new things every day.
+        </p>
+        <a href="#contact" class="btn">Let's Connect</a>
+      </div>
+    </div>
+    <br><br>
+  </section>
+
+  <section id="Projects" class="about">
+    <h2>Projects</h2>
+    <div class="project-container">
+      <div class="project-card">
+        <img src="projects/portfolio.png" alt="portfolioWeb" />
+        <h3>my portfolio</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+      <div class="project-card">
+        <img src="projects/calculator.png" alt="Basic Calculator" />
+        <h3>Calculator</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+      <div class="project-card">
+        <img src="projects/tradingBot.png" alt="AlgoTradingBot" />
+        <h3>For simple trading</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+      <div class="project-card">
+        <img src="projects/shoppingCart.png" alt="Shopping Cart" />
+        <h3>Shopping Cart</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+      <div class="project-card">
+        <img src="projects/eCommerce.png" alt="eCommerceWeb" />
+        <h3>eCommerceWeb</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+      <div class="project-card">
+        <img src="projects/resultManagement.png" alt="Student result" />
+        <h3>Student Result</h3>
+        <p>HTML | CSS | JS</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <h2>Get in Touch</h2>
+    <p>
+      If you’d like to chat about a project or just say hello, feel free to
+      drop a message!
+    </p>
+
+    <div class="contact-container">
+      <form class="contact-form">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" rows="5" placeholder="Type your message here" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+
+      <div class="contact-info">
+        <h3>Let's Connect</h3>
+        <p>Follow me on social media or drop me an email!</p>
+        <div class="social-links">
+          <a href="https://linkedin.com/in/mohd-khushhal07" class="social-link">
+            <img src="assets/linkedin.png" alt="LinkedIn" />
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://github.com/mohd-khushhal07" class="social-link">
+            <img src="assets/github.png" alt="GitHub" />
+            <span>GitHub</span>
+          </a>
+          <a href="https://twitter.com/23_khushhal06" class="social-link">
+            <img src="assets/twitter.png" alt="Twitter" />
+            <span>Twitter</span>
+          </a>
+        </div>
+        <p>
+          Email:<a href="https://mail.google.com/mail/?view=cm&fs=1&to=mohd-khushhal07@gmail.com" target="_blank">
+            Mohd-Khushhal</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
